@@ -1,19 +1,187 @@
 <!DOCTYPE html>
-<html>
-<div class="topnav">
-  <a class="active" href="#home">Home</a>
-  <a href="articles.html">Articles</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a>
-</div>
+<html lang="fr">
 <head>
-<title>Emeric Colombet</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualisation Interactive du Perceptron</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <h1>Visualisation Interactive du Perceptron</h1>
+        <p>Comprendre intuitivement le fonctionnement d'un perceptron simple</p>
+    </header>
 
-<h1>Welcome to my portfolio</h1>
-<p>This is my first experience! </p>
-<img src="src/Lion_d'Afrique.jpg" alt="Mon Lion" style="border:5px solid black" height=128 width=128>
+    <main>
+        <section id="interactive-section">
+            <div class="container">
+                <div class="visualization-container">
+                    <h2>Visualisation du Perceptron</h2>
+                    <div id="perceptron-visualization"></div>
+                    <div id="network-container">
+                        <canvas id="network-canvas" width="800" height="400"></canvas>
+                    </div>
+                </div>
+
+                <div class="controls-container">
+                    <h2>Paramètres</h2>
+                    <div class="control-group">
+                        <label for="learning-rate">Taux d'apprentissage:</label>
+                        <input type="range" id="learning-rate" min="0.001" max="1" step="0.001" value="0.1">
+                        <span id="learning-rate-value">0.1</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="iterations">Nombre d'itérations:</label>
+                        <input type="range" id="iterations" min="1" max="1000" step="1" value="100">
+                        <span id="iterations-value">100</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="activation-function">Fonction d'activation:</label>
+                        <select id="activation-function">
+                            <option value="step">Fonction de Heaviside (Step)</option>
+                            <option value="sigmoid" selected>Sigmoïde</option>
+                            <option value="tanh">Tangente hyperbolique</option>
+                            <option value="relu">ReLU</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <button id="train-button">Entraîner le perceptron</button>
+                        <button id="reset-button">Réinitialiser</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="data-visualization">
+                    <h2>Données et Prédictions</h2>
+                    <div id="data-plot-container">
+                        <canvas id="data-canvas" width="500" height="400"></canvas>
+                    </div>
+                </div>
+
+                <div class="cost-visualization">
+                    <h2>Fonction de Coût</h2>
+                    <div id="cost-plot-container">
+                        <canvas id="cost-canvas" width="500" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="gradient-visualization">
+                    <h2>Rétropropagation du Gradient</h2>
+                    <div id="gradient-container">
+                        <canvas id="gradient-canvas" width="800" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="explanation-section">
+            <h2>Explication Mathématique du Perceptron</h2>
+            
+            <article>
+                <h3>1. Le modèle du perceptron</h3>
+                <p>Le perceptron est un modèle de neurone artificiel qui prend plusieurs entrées pondérées, les additionne, puis applique une fonction d'activation pour produire une sortie. Mathématiquement, cela peut être représenté comme suit:</p>
+                <div class="math-formula">
+                    <p>y = f(∑(w_i × x_i) + b)</p>
+                </div>
+                <p>Où:</p>
+                <ul>
+                    <li>x_i sont les entrées</li>
+                    <li>w_i sont les poids associés à chaque entrée</li>
+                    <li>b est le biais</li>
+                    <li>f est la fonction d'activation</li>
+                    <li>y est la sortie du perceptron</li>
+                </ul>
+            </article>
+
+            <article>
+                <h3>2. Fonctions d'activation</h3>
+                <p>La fonction d'activation introduit une non-linéarité dans le modèle. Voici quelques fonctions d'activation couramment utilisées:</p>
+                
+                <h4>Fonction de Heaviside (Step)</h4>
+                <div class="math-formula">
+                    <p>f(x) = { 1 si x ≥ 0, 0 sinon }</p>
+                </div>
+                
+                <h4>Fonction Sigmoïde</h4>
+                <div class="math-formula">
+                    <p>f(x) = 1 / (1 + e^(-x))</p>
+                </div>
+                
+                <h4>Tangente Hyperbolique (tanh)</h4>
+                <div class="math-formula">
+                    <p>f(x) = (e^x - e^(-x)) / (e^x + e^(-x))</p>
+                </div>
+                
+                <h4>ReLU (Rectified Linear Unit)</h4>
+                <div class="math-formula">
+                    <p>f(x) = max(0, x)</p>
+                </div>
+            </article>
+
+            <article>
+                <h3>3. Fonction de coût</h3>
+                <p>Pour mesurer l'erreur de prédiction du perceptron, nous utilisons une fonction de coût. Pour un problème de classification binaire, l'erreur quadratique moyenne (MSE) est souvent utilisée:</p>
+                <div class="math-formula">
+                    <p>E = (1/n) × ∑(y_i - ŷ_i)²</p>
+                </div>
+                <p>Où:</p>
+                <ul>
+                    <li>n est le nombre d'exemples</li>
+                    <li>y_i est la valeur cible pour l'exemple i</li>
+                    <li>ŷ_i est la prédiction du perceptron pour l'exemple i</li>
+                </ul>
+            </article>
+
+            <article>
+                <h3>4. Apprentissage par descente de gradient</h3>
+                <p>L'apprentissage du perceptron se fait par descente de gradient. L'objectif est de minimiser la fonction de coût en ajustant les poids et le biais. La mise à jour des poids se fait selon la règle:</p>
+                <div class="math-formula">
+                    <p>w_i = w_i - η × ∂E/∂w_i</p>
+                </div>
+                <p>Où:</p>
+                <ul>
+                    <li>η est le taux d'apprentissage</li>
+                    <li>∂E/∂w_i est la dérivée partielle de l'erreur par rapport au poids w_i</li>
+                </ul>
+                
+                <p>Pour un perceptron avec une fonction d'activation sigmoïde et une fonction de coût MSE, la dérivée partielle est:</p>
+                <div class="math-formula">
+                    <p>∂E/∂w_i = (2/n) × ∑(ŷ_i - y_i) × ŷ_i × (1 - ŷ_i) × x_i</p>
+                </div>
+                
+                <p>De même, pour le biais:</p>
+                <div class="math-formula">
+                    <p>b = b - η × ∂E/∂b</p>
+                </div>
+                <div class="math-formula">
+                    <p>∂E/∂b = (2/n) × ∑(ŷ_i - y_i) × ŷ_i × (1 - ŷ_i)</p>
+                </div>
+            </article>
+
+            <article>
+                <h3>5. Rétropropagation du gradient</h3>
+                <p>La rétropropagation est le processus par lequel l'erreur est propagée de la sortie vers l'entrée pour mettre à jour les poids. Pour un perceptron simple, cela revient à calculer la dérivée de l'erreur par rapport à chaque poids et à mettre à jour les poids en conséquence.</p>
+                
+                <p>Le processus peut être décomposé en plusieurs étapes:</p>
+                <ol>
+                    <li>Calcul de l'erreur de sortie: δ = (ŷ - y)</li>
+                    <li>Calcul de la dérivée de la fonction d'activation: f'(z) où z = ∑(w_i × x_i) + b</li>
+                    <li>Calcul du gradient pour chaque poids: ∂E/∂w_i = δ × f'(z) × x_i</li>
+                    <li>Mise à jour des poids: w_i = w_i - η × ∂E/∂w_i</li>
+                </ol>
+                
+                <p>Cette méthode permet au perceptron d'apprendre à partir des données en ajustant progressivement ses poids pour minimiser l'erreur de prédiction.</p>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>Visualisation interactive du perceptron - Créée avec HTML, CSS et JavaScript</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
-  
